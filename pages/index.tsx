@@ -1,16 +1,17 @@
 import { GetStaticPropsContext } from 'next'
 import Head from 'next/head'
-import { StoryblokComponent } from 'storyblok-js-client'
+import { StoryblokComponent, StoryData } from 'storyblok-js-client'
 
 import Storyblok, { useStoryblok } from '../lib/storyblok'
 import DynamicComponent from '../components/DynamicComponent'
+import { IStoryblokParams, StoryblockComponents } from '../lib/storyblock'
 
-interface Props {
-  story: StoryblokComponent<any>
+interface IHome {
+  story: StoryData
   preview: boolean
 }
 
-export default function Home({ story, preview }: Props) {
+export default function Home({ story, preview }: IHome) {
   const pageStory = useStoryblok(story, preview)
 
   return (
@@ -25,19 +26,14 @@ export default function Home({ story, preview }: Props) {
           {pageStory ? pageStory.name : 'Milkcap Museum'}
         </h1>
       </header>
-      <DynamicComponent blok={pageStory.content} />
+      <DynamicComponent blok={pageStory.content as StoryblockComponents} />
     </div>
   )
 }
 
-interface IStoryblokPrams {
-  version: string
-  cv?: number
-}
-
 export async function getStaticProps(context: GetStaticPropsContext) {
   let slug = 'home'
-  let params: IStoryblokPrams = {
+  let params: IStoryblokParams = {
     version: 'draft',
   }
 

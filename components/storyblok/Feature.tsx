@@ -1,14 +1,12 @@
-import React from 'react'
+import { FC } from 'react'
 import { FeatureBlokComponent } from '../../lib/storyblock'
- 
-interface Props {
-    blok: FeatureBlokComponent
+
+export interface IFeatureBlok {
+  blok: FeatureBlokComponent
 }
 
-const Feature = ({ blok }: Props) => (
-    <div className="column feature">
-      {blok.name}
-    </div>
+const Feature: FC<IFeatureBlok> = ({ blok }: IFeatureBlok) => (
+  <div className="column feature">{blok.name}</div>
 )
- 
+
 export default Feature

@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
-import StoryblokClient, { StoryblokComponent } from 'storyblok-js-client'
+import StoryblokClient, {
+  StoryblokComponent,
+  StoryData,
+} from 'storyblok-js-client'
 
 const Storyblok = new StoryblokClient({
   accessToken: process.env.STORYBLOK_KEY,
@@ -9,11 +12,8 @@ const Storyblok = new StoryblokClient({
   },
 })
 
-export function useStoryblok(
-  originalStory: StoryblokComponent<any>,
-  preview: boolean
-) {
-  let [story, setStory] = useState(originalStory)
+export function useStoryblok(originalStory: StoryData, preview: boolean) {
+  let [story, setStory] = useState<StoryData>(originalStory)
 
   function initEventListeners(): void {
     if (typeof StoryblokBridge !== 'undefined') {

@@ -4,9 +4,18 @@ import styles from '../styles/Home.module.css'
 // The Storyblok Client & hook
 import Storyblok, { useStoryblok } from '../lib/storyblok'
 import DynamicComponent from '../components/DynamicComponent'
+import { GetStaticPropsContext } from 'next'
+import { IStoryblokParams, StoryblockComponents } from '../lib/storyblock'
+import { SlugPath } from '../types'
+import { StoryData } from 'storyblok-js-client'
 
-export default function DynamicPage(props) {
-  const story = useStoryblok(props.story)
+interface IDynamicPage {
+  story: StoryData
+  preview: boolean
+}
+
+export default function DynamicPage({ story, preview }: IDynamicPage) {
+  story = useStoryblok(story, preview)
   return (
     <div className={styles.container}>
       <Head>
@@ -20,7 +29,7 @@ export default function DynamicPage(props) {
 
       <main>
         {story
-          ? story.content.body.map((blok) => (
+          ? story.content.body.map((blok: StoryblockComponents) => (
               <DynamicComponent blok={blok} key={blok._uid} />
             ))
           : null}
@@ -29,10 +38,11 @@ export default function DynamicPage(props) {
   )
 }
 
-export async function getStaticProps(context) {
+export async function getStaticProps(context: GetStaticPropsContext) {
   // we need to join the slug on catch all routes
-  let slug = context.params.slug.join('/')
-  let params = {
+  let slug = context?.params?.slug || ''
+  slug = Array.isArray(slug) ? slug.join('/') : slug
+  let params: IStoryblokParams = {
     version: 'draft', // or 'published'
   }
 
@@ -56,7 +66,7 @@ export async function getStaticPaths() {
   // get all stories inside the pages folder
   let { data } = await Storyblok.get('cdn/links/')
 
-  let paths = []
+  let paths: SlugPath[] = []
   Object.keys(data.links).forEach((linkKey) => {
     // don't generate route for folders or home entry
     if (data.links[linkKey].is_folder || data.links[linkKey].slug === 'home') {

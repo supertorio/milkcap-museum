@@ -1,19 +1,19 @@
-import React, { FC } from "react";
-import { PageBlokComponent } from "../../lib/storyblock";
-import DynamicComponent from "../DynamicComponent";
+import { FC } from 'react'
+import { PageBlokComponent } from '../../lib/storyblock'
+import DynamicComponent from '../DynamicComponent'
 
-interface Props {
-    blok: PageBlokComponent
+export interface IPageBlok {
+  blok: PageBlokComponent
 }
 
-const Page:FC<Props> = ({blok}:Props) => (
-    <main>
-        {blok.body ? 
-            blok.body.map((blok) => (
-                <DynamicComponent blok={blok} key={blok._uid} />
-            ))
-        : null }
-    </main>
+const Page: FC<IPageBlok> = ({ blok }: IPageBlok) => (
+  <main>
+    {blok.body
+      ? blok.body.map((blok) => (
+          <DynamicComponent blok={blok} key={blok._uid} />
+        ))
+      : null}
+  </main>
 )
 
-export default Page;
+export default Page

@@ -1,15 +1,12 @@
-import { StoryblokComponent } from "storyblok-js-client";
-import React from 'react'
-import { TeaserBlokComponent } from "../../lib/storyblock";
- 
-interface Props {
-    blok: TeaserBlokComponent
+import { FC } from 'react'
+import { TeaserBlokComponent } from '../../lib/storyblock'
+
+export interface ITeaserBlok {
+  blok: TeaserBlokComponent
 }
 
-const Teaser = ({blok}: Props) => {
-  return (
-    <h2>{blok.headline}</h2>
-  )
+const Teaser: FC<ITeaserBlok> = ({ blok }: ITeaserBlok) => {
+  return <h2>{blok.headline}</h2>
 }
- 
+
 export default Teaser

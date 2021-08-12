@@ -1,19 +1,18 @@
-import React from 'react'
+import { FC } from 'react'
 import { GridBlokComponent } from '../../lib/storyblock'
 import DynamicComponent from '../DynamicComponent'
- 
-interface Props {
-    blok: GridBlokComponent
+export interface IGridBlok {
+  blok: GridBlokComponent
 }
 
-const Grid = ({ blok }: Props) => {
+const Grid: FC<IGridBlok> = ({ blok }: IGridBlok) => {
   return (
     <div className="grid">
-      {blok.columns.map((blok) =>
-        (<DynamicComponent blok={blok} key={blok._uid}/>)
-      )}
+      {blok.columns.map((blok) => (
+        <DynamicComponent blok={blok} key={blok._uid} />
+      ))}
     </div>
   )
 }
- 
+
 export default Grid
