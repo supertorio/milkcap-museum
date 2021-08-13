@@ -74,7 +74,7 @@ export async function getStaticPaths() {
     }
 
     // remove /pages from slug
-    const slug = data.links[linkKey].slug.replace('pages', '')
+    const slug = data.links[linkKey].slug.replace('pages/', '')
 
     // generate page for the slug
     paths.push({ params: { slug } })
